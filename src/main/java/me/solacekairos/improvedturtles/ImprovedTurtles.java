@@ -7,11 +7,12 @@ import java.util.logging.Logger;
 
 public final class ImprovedTurtles extends JavaPlugin {
 
-    private Logger improved_turtles_logger;
+    public Logger improved_turtles_logger;
+    public Drops Dropper;
 
     //THINGS TO DO:
     /*
-    Implement reload command
+    Implement reload command (with permission)
     Add diamond turtle helmet
     Add netherite turtle helmet
      */
@@ -24,7 +25,12 @@ public final class ImprovedTurtles extends JavaPlugin {
         saveDefaultConfig();
 
         PluginManager manager = Bukkit.getPluginManager();
-        manager.registerEvents(new Drops(this, improved_turtles_logger), this);
+        Dropper = new Drops(this);
+        manager.registerEvents(Dropper, this);
+
+
+        getCommand("turtles").setExecutor( new Reload(this) );
+        getCommand("turtles").setTabCompleter( new Autofill() );
     }
 
     @Override

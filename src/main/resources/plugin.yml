@@ -4,3 +4,8 @@ main: me.solacekairos.improvedturtles.ImprovedTurtles
 api-version: 1.19
 authors: [ SolaceKairos ]
 description: Improves Turtle Utilities
+commands:
+  turtles:
+    description: reloads turtle settings in config
+    usage: /turtles
+    permission: improvedturtles.reload

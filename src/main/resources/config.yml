@@ -1,7 +1,3 @@
-main: com.SolaceKairos.ImprovedTurtles
-name: ImprovedTurtles
-version: 0.8
-
 # Change sea_grass to scute (works with looting)
 turtles_drop_scute: false
 # roll_count = looting_level + 1

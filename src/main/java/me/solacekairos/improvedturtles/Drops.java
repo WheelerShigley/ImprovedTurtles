@@ -1,7 +1,6 @@
 package me.solacekairos.improvedturtles;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.EntityType;
@@ -10,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import java.util.Random;
-import java.util.logging.Logger;
 
 public class Drops implements Listener {
     int i, roll_count, drop_count;
@@ -18,13 +16,14 @@ public class Drops implements Listener {
     Random prng = new Random();
 
     //get config values
-    boolean change_drops = false; int roll_maximum = 0;
-    public Drops(ImprovedTurtles plugin, Logger turtle_improvements_log) {
-        FileConfiguration config = plugin.getConfig();
-        config.get("turtles_drop_scute", change_drops);
-        config.get("scute_roll_maximum", roll_maximum);
+    public boolean change_drops = false;
+    public int roll_maximum = 0;
 
-        if(change_drops) { turtle_improvements_log.info("Turtles now drop scute @"+roll_maximum+" per roll."); }
+    public Drops(ImprovedTurtles plugin) {
+        change_drops = plugin.getConfig().getBoolean("turtles_drop_scute");
+        roll_maximum = plugin.getConfig().getInt("scute_roll_maximum");
+
+        if(change_drops) { plugin.improved_turtles_logger.info("Turtles now drop scute @"+roll_maximum+" per roll."); }
     }
 
     @EventHandler
@@ -40,7 +39,7 @@ public class Drops implements Listener {
         }
 
         //roll_count = looting_level + 1;
-        int roll_count = 1 + death.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
+        roll_count = 1 + death.getEntity().getKiller().getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_MOBS);
         if(roll_count < 1) { roll_count = 1; }
         //if(10 < roll_count) { roll_count = 10; } //maximum looting level + 1 ?
 
