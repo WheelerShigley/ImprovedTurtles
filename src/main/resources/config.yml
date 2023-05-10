@@ -1,0 +1,13 @@
+main: com.SolaceKairos.ImprovedTurtles
+name: ImprovedTurtles
+version: 0.8
+
+# Change sea_grass to scute (works with looting)
+turtles_drop_scute: false
+# roll_count = looting_level + 1
+scute_roll_maximum: 1
+
+#enable helmet changes
+enable_diamond_turtle_helmets: true
+#enables both netherite and diamond helmets
+enable_netherite_turtle_helmets: true
