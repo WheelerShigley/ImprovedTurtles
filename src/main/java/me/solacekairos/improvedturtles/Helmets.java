@@ -59,8 +59,6 @@ public class Helmets implements Listener {
             name = temp;
         }
 
-        System.out.println( "\"" + name + "\"");
-
         Multimap<Attribute, AttributeModifier> modifications = meta.getAttributeModifiers();
         if( modifications != null && !modifications.isEmpty() ) {
             Collection<AttributeModifier> collection = modifications.values();
