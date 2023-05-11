@@ -25,7 +25,7 @@ public class Helmets implements Listener {
 
     @EventHandler
     void onSmithingTableEvent(PrepareSmithingEvent smith) {
-        String name = "§r§bTurtle Shell";
+        String prefix = "§r§b", name = "Turtle Shell";
         boolean enable = false;
         double armor = 2.0, toughness = 0.0, knockback_resistence = 0.0; //defaults
 
@@ -40,6 +40,18 @@ public class Helmets implements Listener {
 
         //get current attributes
         if( meta.hasDisplayName() ) { name = meta.getDisplayName(); }
+        {
+            String temp = "";
+            for (int i = 0; i < name.length(); i++) {
+                if (!(name.charAt(i) == '§')) {
+                    temp += name.charAt(i);
+                } else {
+                    i++;
+                }
+            }
+            name = temp;
+        }
+
         Multimap<Attribute, AttributeModifier> modifications = meta.getAttributeModifiers();
         if( modifications != null && !modifications.isEmpty() ) {
             Collection<AttributeModifier> collection = modifications.values();
@@ -55,17 +67,22 @@ public class Helmets implements Listener {
         ItemStack result = item.clone();
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.DIAMOND_HELMET ) {
             enable = true;
-            if(name == "§r§bTurtle Shell") { name = "§r§bDiamond Shell"; } else { name = "§e§o"+name; }
+            if(name == "Turtle Shell") { prefix = "§r§b"; name = "Diamond Shell"; } else { prefix = "§b§o"; }
             armor = 3.0; toughness = 2.0;
         }
-        if( (armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT) || (armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.NETHERITE_HELMET) ) {
+        if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.NETHERITE_HELMET ) {
             enable = true;
-            if(name == "§r§bTurtle Shell") { name = "§r§eNetherite Shell"; } else { name = "§e§o"+name; }
+            if(name == "Turtle Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
+            armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
+        }
+        if( armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT ) {
+            enable = true;
+            if(name == "Diamond Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
             armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
         }
 
         if(enable) {
-            meta.setDisplayName(name);
+            meta.setDisplayName(prefix + name);
 
             meta.removeAttributeModifier(Attribute.GENERIC_ARMOR);                  meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Generic.Armor", armor, ADD_NUMBER, HEAD ) );
             meta.removeAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS);        meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(),"Generic.Armor_Toughness", toughness, ADD_NUMBER, HEAD ) );
@@ -76,6 +93,8 @@ public class Helmets implements Listener {
         } else {
             smith.setResult( new ItemStack(Material.AIR) );
         }
+
+        System.out.println( "\""+ prefix + name +"\"" );
 
         List<HumanEntity> viewers = smith.getViewers();
         viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
