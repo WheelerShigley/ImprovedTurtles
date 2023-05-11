@@ -49,7 +49,7 @@ enable_netherite_turtle_helmets: true
 
  This plugin is make for paper 1.19.4 (#527) and
  is runnable by having the jar file in the /plugins directory within your server directory.
- **There is a compiled jar in the main repository directory** for ease-of-addition.
+ **There is a compiled jar in the main repository directory**, ./ImprovedTurtles.jar for ease-of-addition.
  
  Instructions towards hosting your own paper server can be found here: [Paper Docs](https://docs.papermc.io/paper/getting-started).
  
