@@ -21,7 +21,14 @@ import static org.bukkit.inventory.EquipmentSlot.HEAD;
 
 public class Helmets implements Listener {
 
-    public Helmets() {}
+    public boolean enable_diamond_upgrade = true, enable_both_upgrades = true;
+    public Helmets(ImprovedTurtles plugin) {
+        enable_diamond_upgrade = plugin.getConfig().getBoolean("enable_diamond_turtle_helmets");
+        enable_both_upgrades = plugin.getConfig().getBoolean("enable_netherite_turtle_helmets");
+
+        if(enable_diamond_upgrade) { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Diamond Shells."); }
+        if(enable_both_upgrades) { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Netherite Shells."); }
+    }
 
     @EventHandler
     void onSmithingTableEvent(PrepareSmithingEvent smith) {
@@ -66,16 +73,19 @@ public class Helmets implements Listener {
 
         ItemStack result = item.clone();
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.DIAMOND_HELMET ) {
+            if(!enable_both_upgrades || !enable_diamond_upgrade) { smith.setResult( new ItemStack(Material.AIR) ); return; }
             enable = true;
             if(name == "Turtle Shell") { prefix = "§r§b"; name = "Diamond Shell"; } else { prefix = "§b§o"; }
             armor = 3.0; toughness = 2.0;
         }
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.NETHERITE_HELMET ) {
+            if(!enable_both_upgrades) { smith.setResult( new ItemStack(Material.AIR) ); return; }
             enable = true;
             if(name == "Turtle Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
             armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
         }
         if( armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT ) {
+            if(!enable_both_upgrades) { smith.setResult( new ItemStack(Material.AIR) ); return; }
             enable = true;
             if(name == "Diamond Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
             armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
@@ -93,8 +103,6 @@ public class Helmets implements Listener {
         } else {
             smith.setResult( new ItemStack(Material.AIR) );
         }
-
-        System.out.println( "\""+ prefix + name +"\"" );
 
         List<HumanEntity> viewers = smith.getViewers();
         viewers.forEach( person -> ( (Player)(person) ).updateInventory() );

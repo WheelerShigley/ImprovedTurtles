@@ -3,25 +3,16 @@ package me.solacekairos.improvedturtles;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Item;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import javax.xml.stream.events.Namespace;
 import java.util.logging.Logger;
 
 public final class ImprovedTurtles extends JavaPlugin {
 
     public Logger improved_turtles_logger;
     public Drops Dropper;
-
-    //THINGS TO DO:
-    /*
-    Add diamond turtle helmet
-    Add netherite turtle helmet
-     */
+    public Helmets Upgrades;
 
     @Override
     public void onEnable() {
@@ -32,10 +23,11 @@ public final class ImprovedTurtles extends JavaPlugin {
 
         PluginManager manager = Bukkit.getPluginManager();
         Dropper = new Drops(this);
+        Upgrades = new Helmets(this);
 
         //events added:
         manager.registerEvents(Dropper, this);
-        manager.registerEvents(new Helmets(), this);
+        manager.registerEvents(Upgrades, this);
 
         //recipies added:
         {
