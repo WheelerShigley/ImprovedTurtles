@@ -59,6 +59,8 @@ public class Helmets implements Listener {
             name = temp;
         }
 
+        System.out.println( "\"" + name + "\"");
+
         Multimap<Attribute, AttributeModifier> modifications = meta.getAttributeModifiers();
         if( modifications != null && !modifications.isEmpty() ) {
             Collection<AttributeModifier> collection = modifications.values();
@@ -73,21 +75,36 @@ public class Helmets implements Listener {
 
         ItemStack result = item.clone();
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.DIAMOND_HELMET ) {
-            if(!enable_both_upgrades || !enable_diamond_upgrade) { smith.setResult( new ItemStack(Material.AIR) ); return; }
+            if(!enable_both_upgrades || !enable_diamond_upgrade) {
+                smith.setResult( new ItemStack(Material.AIR) );
+                List<HumanEntity> viewers = smith.getViewers();
+                viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
+                return;
+            }
             enable = true;
-            if(name == "Turtle Shell") { prefix = "§r§b"; name = "Diamond Shell"; } else { prefix = "§b§o"; }
+            if( name.equals("Turtle Shell") ) { prefix = "§r§b"; name = "Diamond Shell"; } else { prefix = "§b§o"; }
             armor = 3.0; toughness = 2.0;
         }
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.NETHERITE_HELMET ) {
-            if(!enable_both_upgrades) { smith.setResult( new ItemStack(Material.AIR) ); return; }
+            if(!enable_both_upgrades) {
+                smith.setResult( new ItemStack(Material.AIR) );
+                List<HumanEntity> viewers = smith.getViewers();
+                viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
+                return;
+            }
             enable = true;
-            if(name == "Turtle Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
+            if( name.equals("Turtle Shell") ) { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
             armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
         }
         if( armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT ) {
-            if(!enable_both_upgrades) { smith.setResult( new ItemStack(Material.AIR) ); return; }
+            if(!enable_both_upgrades) {
+                smith.setResult( new ItemStack(Material.AIR) );
+                List<HumanEntity> viewers = smith.getViewers();
+                viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
+                return;
+            }
             enable = true;
-            if(name == "Diamond Shell") { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
+            if( name.equals("Diamond Shell") ) { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
             armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
         }
 
