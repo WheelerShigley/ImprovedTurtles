@@ -49,13 +49,5 @@ enable_netherite_turtle_helmets: true
 
  This plugin is make for paper 1.19.4 (#527) and
  is runnable by having the jar file in the /plugins directory within your server directory.
- **There is a compiled jar in the main repository directory** for ease-of-addition.
  
- Instructions towards hosting your own paper server can be found here: [Paper Docs](https://docs.papermc.io/paper/getting-started).
- 
- There exists one permission added: "*improvedturtles.reload*";
- this is associated with the command "/turtles reload" (which autofill all arguments).
- 
-### Additional Information
-
-Turtle Shell upgrades were inspired by: "Reinforced Turtle Helmets" by Brett Bonifas on [GitHub](https://github.com/bonn2/ReinforcedTurtleHelmets) and [SpigotMC](https://www.spigotmc.org/resources/reinforced-turtle-helmets.74868/).
+ Instructions towards hosting your own paper server can be found here: [Paper Docs]https://docs.papermc.io/paper/getting-started.
