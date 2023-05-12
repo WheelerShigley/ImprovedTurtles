@@ -8,13 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class Reload implements CommandExecutor {
     ImprovedTurtles occurance;
-    Drops reloadable_drops;
-    Helmets reloadable_upgrades;
+    Drops reloadable_drops; Helmets reloadable_upgrades; ReturnToDrop reloadable_molting;
 
     public Reload(ImprovedTurtles plugin) {
         this.occurance = plugin;
         this.reloadable_drops = plugin.Dropper;
         this.reloadable_upgrades = plugin.Upgrades;
+        this.reloadable_molting = plugin.MoltAtHome;
     }
 
     @Override
@@ -24,6 +24,7 @@ public class Reload implements CommandExecutor {
         //reload if argument is "reload" or "r"
         if( args[0].equals("reload") || args[0].equals("r") ) {
             occurance.reloadConfig();
+
             //reload drops
             {
                 boolean did_drop = reloadable_drops.change_drops;
@@ -48,8 +49,15 @@ public class Reload implements CommandExecutor {
                 if( did_netherite && !reloadable_upgrades.enable_both_upgrades ) { occurance.improved_turtles_logger.info("Netherite Shell Upgrade now disabled."); }
                 if( !did_netherite && reloadable_upgrades.enable_both_upgrades ) { occurance.improved_turtles_logger.info("Netherite Shell Upgrade now enabled."); }
             }
+            //reload growing
+            {
+                boolean did_drop_on_grow = reloadable_molting.drop_on_grow;
 
-            System.out.println( reloadable_upgrades.enable_diamond_upgrade + " " + reloadable_upgrades.enable_both_upgrades );
+                reloadable_molting.drop_on_grow = occurance.getConfig().getBoolean("enable_scute_on_grow_up");
+
+                if(did_drop_on_grow && !reloadable_molting.drop_on_grow) { occurance.improved_turtles_logger.info("Turtles nolonger molt."); }
+                if(!did_drop_on_grow && reloadable_molting.drop_on_grow) { occurance.improved_turtles_logger.info("Turtles molt scute (vanilla)."); }
+            }
 
             if(sender instanceof Player) { sender.sendMessage("Reloaded turtles!"); }
             occurance.improved_turtles_logger.info("Reloaded config.");

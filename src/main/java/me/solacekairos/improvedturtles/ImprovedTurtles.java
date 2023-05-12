@@ -11,8 +11,7 @@ import java.util.logging.Logger;
 public final class ImprovedTurtles extends JavaPlugin {
 
     public Logger improved_turtles_logger;
-    public Drops Dropper;
-    public Helmets Upgrades;
+    public Drops Dropper; public Helmets Upgrades; public ReturnToDrop MoltAtHome;
 
     @Override
     public void onEnable() {
@@ -24,10 +23,12 @@ public final class ImprovedTurtles extends JavaPlugin {
         PluginManager manager = Bukkit.getPluginManager();
         Dropper = new Drops(this);
         Upgrades = new Helmets(this);
+        MoltAtHome = new ReturnToDrop(this);
 
         //events added:
         manager.registerEvents(Dropper, this);
         manager.registerEvents(Upgrades, this);
+        manager.registerEvents(MoltAtHome, this);
 
         //recipies added:
         {

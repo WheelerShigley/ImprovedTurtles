@@ -42,7 +42,8 @@ scute_roll_maximum: 1
 enable_diamond_turtle_helmets: true
 #enables both netherite and diamond helmets
 enable_netherite_turtle_helmets: true
-
+# Drop scute on grow_up
+enable_scute_on_grow_up: true
 ```
  
 ### Usage
