@@ -10,3 +10,12 @@ enable_netherite_turtle_helmets: true
 
 # Drop scute when growing up
 enable_scute_on_grow_up: true
+# Minimum amount dropped when loosing scute
+minimum_drop_quantity: 1
+# Maximum amount dropped when loosing scute
+maximum_drop_quantity: 3
+
+# Return home on grow_up
+return_home_on_grow_up: false
+# Only molt when arriving at home (force enables "Return home on grow_up")
+molt_when_return_home: false

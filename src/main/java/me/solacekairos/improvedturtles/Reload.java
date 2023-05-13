@@ -51,12 +51,25 @@ public class Reload implements CommandExecutor {
             }
             //reload growing
             {
-                boolean did_drop_on_grow = reloadable_molting.drop_on_grow;
+                boolean did_drop_on_grow =   reloadable_molting.drop_on_grow;
+                boolean did_return_on_grow = reloadable_molting.return_on_grow;
+                boolean did_molt_and_return_on_grow = reloadable_molting.return_and_molt_on_grow;
+                int previous_minimum = reloadable_molting.minimum;
+                int previous_maximum = reloadable_molting.maximum;
 
-                reloadable_molting.drop_on_grow = occurance.getConfig().getBoolean("enable_scute_on_grow_up");
+                reloadable_molting.drop_on_grow =            occurance.getConfig().getBoolean("enable_scute_on_grow_up");
+                reloadable_molting.return_on_grow =          occurance.getConfig().getBoolean("return_home_on_grow_up");
+                reloadable_molting.return_and_molt_on_grow = occurance.getConfig().getBoolean("molt_when_return_home");
+                reloadable_molting.minimum = occurance.getConfig().getInt("minimum_drop_quantity");
+                reloadable_molting.maximum = occurance.getConfig().getInt("maximum_drop_quantity");
 
                 if(did_drop_on_grow && !reloadable_molting.drop_on_grow) { occurance.improved_turtles_logger.info("Turtles nolonger molt."); }
                 if(!did_drop_on_grow && reloadable_molting.drop_on_grow) { occurance.improved_turtles_logger.info("Turtles molt scute (vanilla)."); }
+                if( (did_return_on_grow && !reloadable_molting.return_on_grow) && !(did_molt_and_return_on_grow) ) { occurance.improved_turtles_logger.info("Turtles nolonger return home when grown up."); }
+                if( (!did_return_on_grow && reloadable_molting.return_on_grow) && !(did_molt_and_return_on_grow) ) { occurance.improved_turtles_logger.info("Turtles now return home when grown up."); }
+                if(did_molt_and_return_on_grow && !reloadable_molting.return_and_molt_on_grow) { occurance.improved_turtles_logger.info("Turtles nolonger return home to molt when grown up."); }
+                if(!did_molt_and_return_on_grow && reloadable_molting.return_and_molt_on_grow) { occurance.improved_turtles_logger.info("Turtles always return home to molt when grown up."); }
+                if( (previous_minimum != reloadable_molting.minimum) || (previous_maximum != reloadable_molting.maximum) ) { occurance.improved_turtles_logger.info("Drop amount updated to: {" + reloadable_molting.minimum + " to " + reloadable_molting.maximum + "}"); }
             }
 
             if(sender instanceof Player) { sender.sendMessage("Reloaded turtles!"); }

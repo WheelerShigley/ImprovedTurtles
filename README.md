@@ -26,6 +26,11 @@
 
       *All attributs about shells are preserved when upgrading.*
 
+## Humane Automation
+The options "return_home_on_grow_up" and "molt_when_return_home" can be used to make it where turtles return to their home to drop off their scute.
+This allows for humane farming because the turtles nolonger need to be trapped until adulthood.
+Note: if you enable adult turtles dropping useful items, this might still cause players to inhumanely farm turtles.
+
 ## Configurable
 
 <p align="center">
@@ -42,8 +47,18 @@ scute_roll_maximum: 1
 enable_diamond_turtle_helmets: true
 #enables both netherite and diamond helmets
 enable_netherite_turtle_helmets: true
-# Drop scute on grow_up
+
+# Drop scute when growing up
 enable_scute_on_grow_up: true
+# Minimum amount dropped when loosing scute
+minimum_drop_quantity: 1
+# Maximum amount dropped when loosing scute
+maximum_drop_quantity: 3
+
+# Return home on grow_up
+return_home_on_grow_up: false
+# Only molt when arriving at home (force enables "Return home on grow_up")
+molt_when_return_home: false
 ```
  
 ### Usage
