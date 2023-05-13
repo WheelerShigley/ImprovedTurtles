@@ -92,7 +92,7 @@ public class Helmets implements Listener {
             }
             enable = true;
             if( name.equals("Turtle Shell") ) { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
-            armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
+            armor = 3.0; toughness = 3.0; knockback_resistence = 1.0;
         }
         if( armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT ) {
             if(!enable_both_upgrades) {
@@ -103,7 +103,7 @@ public class Helmets implements Listener {
             }
             enable = true;
             if( name.equals("Diamond Shell") ) { prefix = "§r§e"; name = "Netherite Shell"; } else { prefix = "§e§o"; }
-            armor = 3.0; toughness = 2.0; knockback_resistence = 1.0;
+            armor = 3.0; toughness = 3.0; knockback_resistence = 1.0;
         }
 
         if(enable) {
@@ -111,7 +111,8 @@ public class Helmets implements Listener {
 
             meta.removeAttributeModifier(Attribute.GENERIC_ARMOR);                  meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "Generic.Armor", armor, ADD_NUMBER, HEAD ) );
             meta.removeAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS);        meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(),"Generic.Armor_Toughness", toughness, ADD_NUMBER, HEAD ) );
-            meta.removeAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE);   meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(),"Generic.Knockback_Resistance", knockback_resistence, ADD_NUMBER, HEAD ) );
+            System.out.println(knockback_resistence);
+            if(knockback_resistence != 0.0) { meta.removeAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE);   meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(),"Generic.Knockback_Resistance", knockback_resistence/10.0, ADD_NUMBER, HEAD ) ); }
             result.setItemMeta( (ItemMeta)(meta) );
 
             smith.setResult(result);

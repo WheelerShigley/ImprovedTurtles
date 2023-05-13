@@ -57,13 +57,14 @@ public class ReturnToDrop implements Listener {
     //Turtles nolonger drop scute
     @EventHandler
     public void PreventScuteDrop(EntityDropItemEvent drop_event) {
+        if( drop_event.getEntity().getType() != EntityType.TURTLE ) { return; }
+
         int quantity = prng.nextInt(maximum-minimum)+minimum;
         if(drop_on_grow) {
             drop_event.getItemDrop().getItemStack().setAmount(quantity);
         }
 
         //ensure scute is only droped upon request
-        if( drop_event.getEntity().getType() != EntityType.TURTLE ) { return; }
         if(!drop_on_grow || return_and_molt_on_grow) { drop_event.setCancelled(true); }
 
         //return home if requested; afterwards, molt if requested:
