@@ -29,12 +29,20 @@ public class Reload implements CommandExecutor {
             {
                 boolean did_drop = reloadable_drops.change_drops;
                 int previous_maximum = reloadable_drops.roll_maximum;
+                String previous_material = reloadable_drops.drop_name;
+                double previous_probability = reloadable_drops.probability;
+                int previous_total_maximum = reloadable_drops.drop_count_maximum;
 
-                reloadable_drops.change_drops = occurance.getConfig().getBoolean("turtles_drop_scute");
-                reloadable_drops.roll_maximum = occurance.getConfig().getInt("scute_roll_maximum");
+                reloadable_drops.drop_name    = occurance.getConfig().getString("drop_material"); reloadable_drops.getMaterial(reloadable_drops.drop_name);
+                reloadable_drops.change_drops = occurance.getConfig().getBoolean("change_turtles_drops");
+                reloadable_drops.roll_maximum = occurance.getConfig().getInt("drop_roll_maximum");
+                reloadable_drops.probability  = occurance.getConfig().getDouble("drop_probability");
+                reloadable_drops.drop_count_maximum = occurance.getConfig().getInt("total_maximum"); if(reloadable_drops.drop_count_maximum == -1) { reloadable_drops.drop_count_maximum = reloadable_drops.MAXIMUM_32; }
 
-                if ( (!did_drop && reloadable_drops.change_drops) || (previous_maximum != reloadable_drops.roll_maximum) ) { occurance.improved_turtles_logger.info("Turtles now drop " + reloadable_drops.roll_maximum + " scute per roll."); }
-                if (did_drop && !reloadable_drops.change_drops) { occurance.improved_turtles_logger.info("Turtles drop seagrass again (Vanilla)."); }
+                if ( (!did_drop && reloadable_drops.change_drops) || (previous_maximum != reloadable_drops.roll_maximum) || (previous_material != reloadable_drops.drop_name) || (previous_probability != reloadable_drops.probability) || (previous_total_maximum != reloadable_drops.drop_count_maximum) ) {
+                    occurance.improved_turtles_logger.info("Turtles now drop "+100*reloadable_drops.probability+"% "+ reloadable_drops.roll_maximum + " "+reloadable_drops.drop_name+" per roll: [0,"+reloadable_drops.drop_count_maximum+"].");
+                }
+                if (did_drop && !reloadable_drops.change_drops) { occurance.improved_turtles_logger.info("Turtles drop [0,2] seagrass again (Vanilla)."); }
             }
             //reload helmets
             {

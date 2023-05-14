@@ -38,10 +38,16 @@ Note: if you enable adult turtles dropping useful items, this might still cause 
 </p>
 
 ```yml
-# Change sea_grass to scute (works with looting)
-turtles_drop_scute: false
+# Material to drop on death: (SCUTE, TURTLE_SHELL / TURTLE_HELMET, or SEAGRASS)
+drop_material: SCUTE
+# Change sea_grass to new material (works with looting)
+change_turtles_drops: false
+# drop probability per roll; examples: 1.0 is 100%, 0.5 is 50%
+drop_probability: 0.7
 # roll_count = looting_level + 1
-scute_roll_maximum: 1
+drop_roll_maximum: 1
+# maximum amount of drops from a single kill; set to -1 for no maximum
+total_maximum: 4
 
 #enable helmet changes
 enable_diamond_turtle_helmets: true
