@@ -1,5 +1,10 @@
 package me.solacekairos.improvedturtles;
 
+import me.solacekairos.improvedturtles.command.Autofill;
+import me.solacekairos.improvedturtles.command.Reload;
+import me.solacekairos.improvedturtles.recipies.Helmets;
+import me.solacekairos.improvedturtles.turtle.Drops;
+import me.solacekairos.improvedturtles.turtle.ReturnToDrop;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,9 +31,11 @@ public final class ImprovedTurtles extends JavaPlugin {
         MoltAtHome = new ReturnToDrop(this);
 
         //events added:
-        manager.registerEvents(Dropper, this);
-        manager.registerEvents(Upgrades, this);
-        manager.registerEvents(MoltAtHome, this);
+        {
+            manager.registerEvents(Dropper, this);
+            manager.registerEvents(Upgrades, this);
+            manager.registerEvents(MoltAtHome, this);
+        }
 
         //recipies added:
         {
@@ -56,8 +63,10 @@ public final class ImprovedTurtles extends JavaPlugin {
         }
 
         //commands added:
-        getCommand("turtles").setExecutor( new Reload(this) );
-        getCommand("turtles").setTabCompleter( new Autofill() );
+        {
+            getCommand("turtles").setExecutor( new Reload(this) );
+            getCommand("turtles").setTabCompleter( new Autofill() );
+        }
     }
 
     @Override
