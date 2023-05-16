@@ -4,14 +4,17 @@ import me.solacekairos.improvedturtles.turtle.Drops;
 import me.solacekairos.improvedturtles.recipies.Helmets;
 import me.solacekairos.improvedturtles.ImprovedTurtles;
 import me.solacekairos.improvedturtles.turtle.ReturnToDrop;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class Reload implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Reload implements TabExecutor {
     ImprovedTurtles occurance;
     Drops reloadable_drops; Helmets reloadable_upgrades; ReturnToDrop reloadable_molting;
 
@@ -19,7 +22,7 @@ public class Reload implements CommandExecutor {
         this.occurance = plugin;
         this.reloadable_drops = plugin.Dropper;
         this.reloadable_upgrades = plugin.Upgrades;
-        this.reloadable_molting = plugin.MoltAtHome;
+        this.reloadable_molting = plugin.moltAtHome;
     }
 
     @Override
@@ -40,5 +43,13 @@ public class Reload implements CommandExecutor {
         }
 
         return true; /*fake false*/
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        List<String> possible_autocompletions = new ArrayList<>();
+        if(args.length == 1) { possible_autocompletions.add("reload"); }
+
+        return possible_autocompletions;
     }
 }

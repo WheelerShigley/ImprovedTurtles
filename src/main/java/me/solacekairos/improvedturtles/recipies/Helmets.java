@@ -29,12 +29,7 @@ public class Helmets implements Listener {
 
     //instance variables
     boolean enable_diamond_upgrade = true;
-    public void setEnableDiamond(boolean status) { enable_diamond_upgrade = status; }
-    public boolean getEnableDiamond() { return enable_diamond_upgrade; }
-
     boolean enable_netherite_upgrades = true;
-    public void setEnableNetherite(boolean status) { enable_diamond_upgrade = status; }
-    public boolean getEnableNetherite() { return enable_diamond_upgrade; }
 
     public Helmets(ImprovedTurtles plugin) {
         this.plugin = plugin;
@@ -42,11 +37,11 @@ public class Helmets implements Listener {
     }
 
     public void reloadHelmets(ImprovedTurtles plugin) {
-        boolean did_diamond = getEnableDiamond(),
-                did_netherite = getEnableNetherite();
+        boolean did_diamond = enable_diamond_upgrade,
+                did_netherite = enable_netherite_upgrades;
 
-        setEnableDiamond(   plugin.getConfig().getBoolean("enable_diamond_turtle_helmets"   ) );
-        setEnableNetherite( plugin.getConfig().getBoolean("enable_netherite_turtle_helmets" ) );
+        enable_diamond_upgrade =    plugin.getConfig().getBoolean("enable_diamond_turtle_helmets"   );
+        enable_netherite_upgrades = plugin.getConfig().getBoolean("enable_netherite_turtle_helmets" );
 
         if(did_diamond && !enable_diamond_upgrade)      { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Diamond Shells.");                }
         if(!did_diamond && enable_diamond_upgrade)      { plugin.improved_turtles_logger.info("Turtle Shells are nolonger upgradable to Diamond Shells.");           }

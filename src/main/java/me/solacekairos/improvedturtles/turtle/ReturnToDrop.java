@@ -24,30 +24,19 @@ public class ReturnToDrop implements Listener {
 
     //instance variables
     int minimum = 1;
-    public void setMinimum(int min) {
+    int maximum = 1;
+    boolean drop_on_grow = true;
+    boolean return_on_grow = false;
+    boolean return_and_molt_on_grow = false;
+
+    private void setMinimum(int min) {
         minimum = min;
         if(maximum < minimum) { maximum = min; }
     }
-    public int getMinimum() { return minimum; }
-
-    int maximum = 1;
-    public void setMaximum(int max) {
+    private void setMaximum(int max) {
         maximum = max;
         if(maximum < minimum) { minimum = max; }
     }
-    public int getMaximum() { return maximum; }
-
-    boolean drop_on_grow = true;
-    public void setDoGrowthDrop(boolean do_drop) { drop_on_grow = do_drop; }
-    public boolean getDoGrowthDrop() { return drop_on_grow; }
-
-    boolean return_on_grow = false;
-    public void setReturnOnGrow(boolean do_return) { return_on_grow = do_return; }
-    public boolean getReturnOnGrow() { return return_on_grow; }
-
-    boolean return_and_molt_on_grow = false;
-    public void setDoReturnToMolt(boolean do_return_to_molt) { return_on_grow = do_return_to_molt; }
-    public boolean getDoReturnToMolt() { return return_on_grow; }
 
     public ReturnToDrop(ImprovedTurtles plugin) {
         prng = new Random();
@@ -66,11 +55,11 @@ public class ReturnToDrop implements Listener {
                 previous_return_on_grow = return_on_grow,
                 previous_return_and_molt_on_grow = return_and_molt_on_grow;
 
-        setMinimum(         plugin.getConfig().getInt("minimum_drop_quantity")      );
-        setMaximum(         plugin.getConfig().getInt("maximum_drop_quantity")      );
-        setDoGrowthDrop(    plugin.getConfig().getBoolean("enable_drop_on_grow_up") );
-        setReturnOnGrow(    plugin.getConfig().getBoolean("return_home_on_grow_up") );
-        setDoReturnToMolt(  plugin.getConfig().getBoolean("molt_when_return_home")  );
+        setMinimum( plugin.getConfig().getInt("minimum_drop_quantity") );
+        setMaximum( plugin.getConfig().getInt("maximum_drop_quantity") );
+        drop_on_grow =            plugin.getConfig().getBoolean("enable_drop_on_grow_up");
+        return_on_grow =          plugin.getConfig().getBoolean("return_home_on_grow_up");
+        return_and_molt_on_grow = plugin.getConfig().getBoolean("molt_when_return_home" );
 
         if(previous_drop_on_grow && !drop_on_grow) { improved_turtles_logger.info("Turtles nolonger molt."); }
         if(!previous_drop_on_grow && drop_on_grow) { improved_turtles_logger.info("Turtles molt scute (vanilla)."); }

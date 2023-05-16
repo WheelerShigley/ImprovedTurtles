@@ -17,56 +17,46 @@ public class Drops implements Listener {
     Ageable maybe_baby;
     Random prng = new Random();
 
-    //get config values
+    //instance variables
     boolean change_drops = false;
-    public void setChangeDrops(boolean status) { change_drops = status; }
-    public boolean getChangeDrops() { return change_drops; }
-
     int roll_maximum = 0;
-    public void setRollMaximum(int maximum) { roll_maximum = maximum; }
-    public int getRollMaximum() { return roll_maximum; }
-
     double probability = 0.5;
-    public void setProbability(double value) {
+    Material drop = Material.SEAGRASS;
+    int drop_count_maximum = 1;
+
+    private void setProbability(double value) {
         double positive_value = Math.abs(value);
         if( positive_value <= 1.0 ) { probability = positive_value;
         } else { probability = positive_value - (int)positive_value; }
-    }
-    public double getProbability() { return probability; }
-
-    String drop_name = "SEAGRASS"; Material drop = Material.SEAGRASS;
-    public void setMaterial(String name) {
+    } //good
+    private void setMaterial(String name) {
         String temporary_name = name.toUpperCase();
 
         if( temporary_name.equals("TURTLE_HELMET") || temporary_name.equals("TURTLE_SHELL") ) { drop = Material.TURTLE_HELMET; return; }
         if( temporary_name.equals("SCUTE") ) { drop = Material.SCUTE; return; }
         drop = Material.SEAGRASS;
-    }
-    public Material getMaterial() { return drop; }
-
-    int drop_count_maximum = 1;
-    public void setDropMaximum(int quantity) {
+    } //good
+    private void setDropMaximum(int quantity) {
         if(quantity < 0) { drop_count_maximum = 0b01111111111111111111111111111111; /*maximum (int)*/ }
         drop_count_maximum = quantity;
-    }
-    public int getDropMaximum() { return drop_count_maximum; }
+    } //good
 
     public Drops(ImprovedTurtles plugin) {
         reloadDrops(plugin);
     }
 
     public void reloadDrops(ImprovedTurtles plugin) {
-        int previous_roll_maximum = getRollMaximum(),
-            previous_total_maximum = getDropMaximum();
-        //boolean did_drop = getChangeDrops();
-        Material previous_material = getMaterial();
-        double previous_probability = getProbability();
+        int previous_roll_maximum = roll_maximum,
+            previous_total_maximum = drop_count_maximum;
+        //boolean did_drop = change_drops;
+        Material previous_material = drop;
+        double previous_probability = probability;
 
-        setChangeDrops( plugin.getConfig().getBoolean("change_turtles_drops") );
-        setDropMaximum( plugin.getConfig().getInt("total_maximum")            );
-        setProbability( plugin.getConfig().getDouble("drop_probability")      );
-        setMaterial(    plugin.getConfig().getString("drop_material")         );
-        setRollMaximum( plugin.getConfig().getInt("maximum_per_roll")         );
+        change_drops = plugin.getConfig().getBoolean("change_turtles_drops");
+        roll_maximum = plugin.getConfig().getInt("maximum_per_roll"        );
+        setDropMaximum( plugin.getConfig().getInt("total_maximum")       );
+        setProbability( plugin.getConfig().getDouble("drop_probability") );
+        setMaterial(    plugin.getConfig().getString("drop_material")    );
 
         //compare with previous values, output if changes occured
         if ( change_drops && ( (previous_roll_maximum != roll_maximum) || !(previous_material.equals(drop) ) || (previous_probability != probability) || (previous_total_maximum != drop_count_maximum) ) ) {

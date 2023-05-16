@@ -1,6 +1,5 @@
 package me.solacekairos.improvedturtles;
 
-import me.solacekairos.improvedturtles.command.Autofill;
 import me.solacekairos.improvedturtles.command.Reload;
 import me.solacekairos.improvedturtles.recipies.Helmets;
 import me.solacekairos.improvedturtles.turtle.Drops;
@@ -8,13 +7,9 @@ import me.solacekairos.improvedturtles.turtle.ReturnToDrop;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Logger;
 
@@ -23,7 +18,7 @@ public final class ImprovedTurtles extends JavaPlugin {
     public Logger improved_turtles_logger;
     public Drops Dropper;
     public Helmets Upgrades;
-    public ReturnToDrop MoltAtHome;
+    public ReturnToDrop moltAtHome;
 
     @Override
     public void onEnable() {
@@ -35,12 +30,12 @@ public final class ImprovedTurtles extends JavaPlugin {
         PluginManager manager = Bukkit.getPluginManager();
         Dropper = new Drops(this);
         Upgrades = new Helmets(this);
-        MoltAtHome = new ReturnToDrop(this);
+        moltAtHome = new ReturnToDrop(this);
         //events added:
         {
             manager.registerEvents(Dropper, this);
             manager.registerEvents(Upgrades, this);
-            manager.registerEvents(MoltAtHome, this);
+            manager.registerEvents(moltAtHome, this);
         }
         //recipies added:
         {
@@ -66,10 +61,10 @@ public final class ImprovedTurtles extends JavaPlugin {
             Bukkit.addRecipe(netherite_shell);
             Bukkit.addRecipe(shell_upgrade);
         }
-        //commands added:
+        //command/tabCompletor added:
         {
             getCommand("turtles").setExecutor( new Reload(this) );
-            getCommand("turtles").setTabCompleter( new Autofill() );
+            getCommand("turtles").setTabCompleter( new Reload(this) );
         }
     }
 
