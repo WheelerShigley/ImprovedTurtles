@@ -16,11 +16,39 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 public class ReturnToDrop implements Listener {
-    Logger improved_turtles_logger; BukkitScheduler scheduler; Plugin improved_turtles;
+
+    Logger improved_turtles_logger;
+    BukkitScheduler scheduler;
+    Plugin improved_turtles;
     Random prng;
 
-    public int minimum = 1, maximum = 1;
-    public boolean drop_on_grow = true, return_on_grow = false, return_and_molt_on_grow = false;
+    //instance variables
+    int minimum = 1;
+    public void setMinimum(int min) {
+        minimum = min;
+        if(maximum < minimum) { maximum = min; }
+    }
+    public int getMinimum() { return minimum; }
+
+    int maximum = 1;
+    public void setMaximum(int max) {
+        maximum = max;
+        if(maximum < minimum) { minimum = max; }
+    }
+    public int getMaximum() { return maximum; }
+
+    boolean drop_on_grow = true;
+    public void setDoGrowthDrop(boolean do_drop) { drop_on_grow = do_drop; }
+    public boolean getDoGrowthDrop() { return drop_on_grow; }
+
+    boolean return_on_grow = false;
+    public void setReturnOnGrow(boolean do_return) { return_on_grow = do_return; }
+    public boolean getReturnOnGrow() { return return_on_grow; }
+
+    boolean return_and_molt_on_grow = false;
+    public void setDoReturnToMolt(boolean do_return_to_molt) { return_on_grow = do_return_to_molt; }
+    public boolean getDoReturnToMolt() { return return_on_grow; }
+
     public ReturnToDrop(ImprovedTurtles plugin) {
         prng = new Random();
 
@@ -28,12 +56,29 @@ public class ReturnToDrop implements Listener {
         scheduler = plugin.getServer().getScheduler();
         improved_turtles_logger = plugin.improved_turtles_logger;
 
-        minimum = plugin.getConfig().getInt("minimum_drop_quantity");
-        maximum = plugin.getConfig().getInt("maximum_drop_quantity");
+        reloadGrowthDrop(plugin);
+    }
 
-        drop_on_grow =            plugin.getConfig().getBoolean("enable_scute_on_grow_up");
-        return_on_grow =          plugin.getConfig().getBoolean("return_home_on_grow_up");
-        return_and_molt_on_grow = plugin.getConfig().getBoolean("molt_when_return_home");
+    public void reloadGrowthDrop(ImprovedTurtles plugin) {
+        int previous_minimum = minimum,
+            previous_maximum = maximum;
+        boolean previous_drop_on_grow = drop_on_grow,
+                previous_return_on_grow = return_on_grow,
+                previous_return_and_molt_on_grow = return_and_molt_on_grow;
+
+        setMinimum(         plugin.getConfig().getInt("minimum_drop_quantity")      );
+        setMaximum(         plugin.getConfig().getInt("maximum_drop_quantity")      );
+        setDoGrowthDrop(    plugin.getConfig().getBoolean("enable_drop_on_grow_up") );
+        setReturnOnGrow(    plugin.getConfig().getBoolean("return_home_on_grow_up") );
+        setDoReturnToMolt(  plugin.getConfig().getBoolean("molt_when_return_home")  );
+
+        if(previous_drop_on_grow && !drop_on_grow) { improved_turtles_logger.info("Turtles nolonger molt."); }
+        if(!previous_drop_on_grow && drop_on_grow) { improved_turtles_logger.info("Turtles molt scute (vanilla)."); }
+        if( (previous_return_on_grow && !return_on_grow) && !(previous_return_and_molt_on_grow) ) { improved_turtles_logger.info("Turtles nolonger return home when grown up."); }
+        if( (!previous_return_on_grow && return_on_grow) && !(previous_return_and_molt_on_grow) ) { improved_turtles_logger.info("Turtles now return home when grown up."); }
+        if(previous_return_and_molt_on_grow && !return_and_molt_on_grow) { improved_turtles_logger.info("Turtles nolonger return home to molt when grown up."); }
+        if(!previous_return_and_molt_on_grow && return_and_molt_on_grow) { improved_turtles_logger.info("Turtles always return home to molt when grown up."); }
+        if( (previous_minimum != minimum) || (previous_maximum != maximum) ) { improved_turtles_logger.info("Molting drop-amount updated to: [" + minimum + "," + maximum + "]."); }
     }
 
     private void go_home(boolean molt_when_home, Entity entity, Location home, int amount) {

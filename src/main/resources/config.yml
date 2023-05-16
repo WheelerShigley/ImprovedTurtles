@@ -9,7 +9,7 @@
     # drop probability per roll; examples: 1.0 is 100%, 0.5 is 50%
     drop_probability: 0.7
     # roll_count = looting_level + 1
-    drop_roll_maximum: 1
+    maximum_per_roll: 1
     # maximum amount of drops from a single kill; set to -1 for no maximum
     total_maximum: 1
 
@@ -23,7 +23,7 @@
   ## Growing-up settings!
 
     # Drop scute when growing up
-    enable_scute_on_grow_up: true
+    enable_drop_on_grow_up: true
     # Minimum amount dropped when loosing scute
     minimum_drop_quantity: 1
     # Maximum amount dropped when loosing scute
@@ -32,6 +32,6 @@
   ## Migration settings!
 
     # Return home on grow_up
-    return_home_on_grow_up: false
+    return_home_on_grow_up: true
     # Only molt when arriving at home (force enables "Return home on grow_up")
-    molt_when_return_home: false
+    molt_when_return_home: true

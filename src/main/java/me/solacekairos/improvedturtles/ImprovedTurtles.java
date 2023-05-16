@@ -16,7 +16,9 @@ import java.util.logging.Logger;
 public final class ImprovedTurtles extends JavaPlugin {
 
     public Logger improved_turtles_logger;
-    public Drops Dropper; public Helmets Upgrades; public ReturnToDrop MoltAtHome;
+    public Drops Dropper;
+    public Helmets Upgrades;
+    public ReturnToDrop MoltAtHome;
 
     @Override
     public void onEnable() {
@@ -29,14 +31,12 @@ public final class ImprovedTurtles extends JavaPlugin {
         Dropper = new Drops(this);
         Upgrades = new Helmets(this);
         MoltAtHome = new ReturnToDrop(this);
-
         //events added:
         {
             manager.registerEvents(Dropper, this);
             manager.registerEvents(Upgrades, this);
             manager.registerEvents(MoltAtHome, this);
         }
-
         //recipies added:
         {
             SmithingRecipe diamond_shell = new SmithingRecipe(
@@ -61,7 +61,6 @@ public final class ImprovedTurtles extends JavaPlugin {
             Bukkit.addRecipe(netherite_shell);
             Bukkit.addRecipe(shell_upgrade);
         }
-
         //commands added:
         {
             getCommand("turtles").setExecutor( new Reload(this) );

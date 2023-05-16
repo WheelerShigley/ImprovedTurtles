@@ -12,36 +12,70 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 public class Drops implements Listener {
-    public final int MAXIMUM_32 = 0b01111111111111111111111111111111; //maximum 32-bit integer
 
     int i, roll_count, drop_count;
     Ageable maybe_baby;
     Random prng = new Random();
 
     //get config values
-    public boolean change_drops = false;
-    public int roll_maximum = 0;
-    public double probability = 0.5;
-    public String drop_name = "SEAGRASS"; Material drop = Material.SEAGRASS;
-    public int drop_count_maximum = 1;
+    boolean change_drops = false;
+    public void setChangeDrops(boolean status) { change_drops = status; }
+    public boolean getChangeDrops() { return change_drops; }
 
-    public Drops(ImprovedTurtles plugin) {
-        drop_name    = plugin.getConfig().getString("drop_material"); getMaterial(drop_name);
-        change_drops = plugin.getConfig().getBoolean("change_turtles_drops");
-        probability  = plugin.getConfig().getDouble("drop_probability");
-        roll_maximum = plugin.getConfig().getInt("drop_roll_maximum");
-        drop_count_maximum = plugin.getConfig().getInt("total_maximum"); if(drop_count_maximum == -1) { drop_count_maximum = MAXIMUM_32; }
+    int roll_maximum = 0;
+    public void setRollMaximum(int maximum) { roll_maximum = maximum; }
+    public int getRollMaximum() { return roll_maximum; }
 
-        if(change_drops) { plugin.improved_turtles_logger.info("Turtles now drop "+drop.toString()+" @"+roll_maximum+" per roll."); }
+    double probability = 0.5;
+    public void setProbability(double value) {
+        double positive_value = Math.abs(value);
+        if( positive_value <= 1.0 ) { probability = positive_value;
+        } else { probability = positive_value - (int)positive_value; }
     }
+    public double getProbability() { return probability; }
 
-    public void getMaterial(String name) {
-        //manual switch statement
+    String drop_name = "SEAGRASS"; Material drop = Material.SEAGRASS;
+    public void setMaterial(String name) {
         String temporary_name = name.toUpperCase();
 
         if( temporary_name.equals("TURTLE_HELMET") || temporary_name.equals("TURTLE_SHELL") ) { drop = Material.TURTLE_HELMET; return; }
         if( temporary_name.equals("SCUTE") ) { drop = Material.SCUTE; return; }
-        if( !( temporary_name.equals("TURTLE_HELMET") || temporary_name.equals("TURTLE_SHELL") || temporary_name.equals("SCUTE") ) ) { drop = Material.SEAGRASS; /*drop_name = "SEAGRASS";*/ }
+        drop = Material.SEAGRASS;
+    }
+    public Material getMaterial() { return drop; }
+
+    int drop_count_maximum = 1;
+    public void setDropMaximum(int quantity) {
+        if(quantity < 0) { drop_count_maximum = 0b01111111111111111111111111111111; /*maximum (int)*/ }
+        drop_count_maximum = quantity;
+    }
+    public int getDropMaximum() { return drop_count_maximum; }
+
+    public Drops(ImprovedTurtles plugin) {
+        reloadDrops(plugin);
+    }
+
+    public void reloadDrops(ImprovedTurtles plugin) {
+        int previous_roll_maximum = getRollMaximum(),
+            previous_total_maximum = getDropMaximum();
+        //boolean did_drop = getChangeDrops();
+        Material previous_material = getMaterial();
+        double previous_probability = getProbability();
+
+        setChangeDrops( plugin.getConfig().getBoolean("change_turtles_drops") );
+        setDropMaximum( plugin.getConfig().getInt("total_maximum")            );
+        setProbability( plugin.getConfig().getDouble("drop_probability")      );
+        setMaterial(    plugin.getConfig().getString("drop_material")         );
+        setRollMaximum( plugin.getConfig().getInt("maximum_per_roll")         );
+
+        //compare with previous values, output if changes occured
+        if ( change_drops && ( (previous_roll_maximum != roll_maximum) || !(previous_material.equals(drop) ) || (previous_probability != probability) || (previous_total_maximum != drop_count_maximum) ) ) {
+            plugin.improved_turtles_logger.info("Turtles drop "+100*probability+"% "+ roll_maximum + " "+drop.toString()+" per roll: [0,"+drop_count_maximum+"].");
+        }
+        if (!change_drops) {
+            plugin.improved_turtles_logger.info("Turtles drop [0,2] seagrass again (Vanilla)."); }
+
+        if(change_drops) { plugin.improved_turtles_logger.info("Turtles now drop "+drop.toString()+" @ "+roll_maximum+" per roll."); }
     }
 
     @EventHandler
@@ -62,10 +96,10 @@ public class Drops implements Listener {
         //if(10 < roll_count) { roll_count = 10; } //maximum looting level + 1 ?
 
         //add drops, DO NOT add eggs as drop: they cracked through violence
-        double linear_probability = (double)( prng.nextInt() ) / (double)(MAXIMUM_32);
+        double linear_probability = ( (double)prng.nextInt() ) / ( (double)0b01111111111111111111111111111111 );
 
         ItemStack is_drop = new ItemStack(drop);
-        drop_count = 0; for(i = 0; i < roll_count; i++) { if(linear_probability <= probability) { drop_count++; }  } //50% chance each roll
+        drop_count = 0; for(i = 0; i < roll_count; i++) { if(linear_probability <= probability) { drop_count++; }  } //+ P(chance) every roll
         if(drop_count_maximum < drop_count) { drop_count = drop_count_maximum; }
         is_drop.setAmount(drop_count);
 

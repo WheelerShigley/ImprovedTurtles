@@ -38,33 +38,41 @@ Note: if you enable adult turtles dropping useful items, this might still cause 
 </p>
 
 ```yml
-# Material to drop on death: (SCUTE, TURTLE_SHELL / TURTLE_HELMET, or SEAGRASS)
-drop_material: SCUTE
-# Change sea_grass to new material (works with looting)
-change_turtles_drops: false
-# drop probability per roll; examples: 1.0 is 100%, 0.5 is 50%
-drop_probability: 0.7
-# roll_count = looting_level + 1
-drop_roll_maximum: 1
-# maximum amount of drops from a single kill; set to -1 for no maximum
-total_maximum: 4
+## Change (adult) Turtle drops!
 
-#enable helmet changes
-enable_diamond_turtle_helmets: true
-#enables both netherite and diamond helmets
-enable_netherite_turtle_helmets: true
+	# Change sea_grass to new material (works with looting)
+	change_turtles_drops: false
+	# Material to drop on death: (SCUTE, TURTLE_SHELL / TURTLE_HELMET, or SEAGRASS)
+	drop_material: SCUTE
+	# drop probability per roll; examples: 1.0 is 100%, 0.5 is 50%
+	drop_probability: 0.7
+	# roll_count = looting_level + 1
+	maximum_per_roll: 1
+	# maximum amount of drops from a single kill; set to -1 for no maximum
+	total_maximum: 1
 
-# Drop scute when growing up
-enable_scute_on_grow_up: true
-# Minimum amount dropped when loosing scute
-minimum_drop_quantity: 1
-# Maximum amount dropped when loosing scute
-maximum_drop_quantity: 3
+## Crafting tiered turtle shells!
 
-# Return home on grow_up
-return_home_on_grow_up: false
-# Only molt when arriving at home (force enables "Return home on grow_up")
-molt_when_return_home: false
+	#enable helmet changes
+	enable_diamond_turtle_helmets: true
+	#enables both netherite and diamond helmets
+	enable_netherite_turtle_helmets: true
+
+## Growing-up settings!
+
+	# Drop scute when growing up
+	enable_drop_on_grow_up: true
+	# Minimum amount dropped when loosing scute
+	minimum_drop_quantity: 1
+	# Maximum amount dropped when loosing scute
+	maximum_drop_quantity: 3
+
+## Migration settings!
+
+	# Return home on grow_up
+	return_home_on_grow_up: true
+	# Only molt when arriving at home (force enables "Return home on grow_up")
+	molt_when_return_home: true
 ```
  
 ### Usage

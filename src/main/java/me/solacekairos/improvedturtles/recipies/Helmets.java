@@ -21,15 +21,34 @@ import static org.bukkit.inventory.EquipmentSlot.HEAD;
 
 public class Helmets implements Listener {
 
-    public boolean enable_diamond_upgrade = true, enable_both_upgrades = true;
-    public Helmets(ImprovedTurtles plugin) {
-        enable_diamond_upgrade = plugin.getConfig().getBoolean("enable_diamond_turtle_helmets");
-        enable_both_upgrades = plugin.getConfig().getBoolean("enable_netherite_turtle_helmets");
+    //instance variables
+    boolean enable_diamond_upgrade = true;
+    public void setEnableDiamond(boolean status) { enable_diamond_upgrade = status; }
+    public boolean getEnableDiamond() { return enable_diamond_upgrade; }
 
-        if(enable_diamond_upgrade) { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Diamond Shells."); }
-        if(enable_both_upgrades) { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Netherite Shells."); }
+    boolean enable_netherite_upgrades = true;
+    public void setEnableNetherite(boolean status) { enable_diamond_upgrade = status; }
+    public boolean getEnableNetherite() { return enable_diamond_upgrade; }
+
+    public Helmets(ImprovedTurtles plugin) {
+        reloadHelmets(plugin);
     }
 
+    public void reloadHelmets(ImprovedTurtles plugin) {
+        boolean did_diamond = getEnableDiamond(),
+                did_netherite = getEnableNetherite();
+
+        setEnableDiamond(   plugin.getConfig().getBoolean("enable_diamond_turtle_helmets"   ) );
+        setEnableNetherite( plugin.getConfig().getBoolean("enable_netherite_turtle_helmets" ) );
+
+        if(did_diamond && !enable_diamond_upgrade)      { plugin.improved_turtles_logger.info("Turtle Shells are now upgradable to Diamond Shells.");                }
+        if(!did_diamond && enable_diamond_upgrade)      { plugin.improved_turtles_logger.info("Turtle Shells are nolonger upgradable to Diamond Shells.");           }
+        if(did_netherite && !enable_netherite_upgrades) { plugin.improved_turtles_logger.info("Turtle/Diamond Shells are now upgradable to Netherite Shells.");      }
+        if(!did_netherite && enable_netherite_upgrades) { plugin.improved_turtles_logger.info("Turtle/Diamond Shells are nolonger upgradable to Netherite Shells."); }
+
+    }
+
+    //needs rework!
     @EventHandler
     void onSmithingTableEvent(PrepareSmithingEvent smith) {
         String prefix = "§r§b", name = "Turtle Shell";
@@ -73,7 +92,7 @@ public class Helmets implements Listener {
 
         ItemStack result = item.clone();
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.DIAMOND_HELMET ) {
-            if(!enable_both_upgrades || !enable_diamond_upgrade) {
+            if(!enable_netherite_upgrades || !enable_diamond_upgrade) {
                 smith.setResult( new ItemStack(Material.AIR) );
                 List<HumanEntity> viewers = smith.getViewers();
                 viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
@@ -84,7 +103,7 @@ public class Helmets implements Listener {
             armor = 3.0; toughness = 2.0;
         }
         if( armor == 2.0 && toughness == 0.0 && modifier.getType() == Material.NETHERITE_HELMET ) {
-            if(!enable_both_upgrades) {
+            if(!enable_netherite_upgrades) {
                 smith.setResult( new ItemStack(Material.AIR) );
                 List<HumanEntity> viewers = smith.getViewers();
                 viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
@@ -95,7 +114,7 @@ public class Helmets implements Listener {
             armor = 3.0; toughness = 3.0; knockback_resistence = 1.0;
         }
         if( armor == 3.0 && toughness == 2.0 && modifier.getType() == Material.NETHERITE_INGOT ) {
-            if(!enable_both_upgrades) {
+            if(!enable_netherite_upgrades) {
                 smith.setResult( new ItemStack(Material.AIR) );
                 List<HumanEntity> viewers = smith.getViewers();
                 viewers.forEach( person -> ( (Player)(person) ).updateInventory() );
