@@ -1,6 +1,6 @@
-package me.solacekairos.improvedturtles.turtle;
+package me.solacekairos.turtlesplus.turtle;
 
-import me.solacekairos.improvedturtles.ImprovedTurtles;
+import me.solacekairos.turtlesplus.Turtles_Plus;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -38,7 +38,7 @@ public class ReturnToDrop implements Listener {
         if(maximum < minimum) { minimum = max; }
     }
 
-    public ReturnToDrop(ImprovedTurtles plugin) {
+    public ReturnToDrop(Turtles_Plus plugin) {
         prng = new Random();
 
         improved_turtles = plugin;
@@ -48,7 +48,7 @@ public class ReturnToDrop implements Listener {
         reloadGrowthDrop(plugin);
     }
 
-    public void reloadGrowthDrop(ImprovedTurtles plugin) {
+    public void reloadGrowthDrop(Turtles_Plus plugin) {
         int previous_minimum = minimum,
             previous_maximum = maximum;
         boolean previous_drop_on_grow = drop_on_grow,

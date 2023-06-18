@@ -1,7 +1,7 @@
-package me.solacekairos.improvedturtles.recipies;
+package me.solacekairos.turtlesplus.recipies;
 
 import com.google.common.collect.Multimap;
-import me.solacekairos.improvedturtles.ImprovedTurtles;
+import me.solacekairos.turtlesplus.Turtles_Plus;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -24,19 +24,19 @@ import static org.bukkit.attribute.AttributeModifier.Operation.ADD_NUMBER;
 import static org.bukkit.inventory.EquipmentSlot.HEAD;
 
 public class Helmets implements Listener {
-    ImprovedTurtles plugin;
+    Turtles_Plus plugin;
     final String plugin_name = "improvedturtles"; //lowercase!
 
     //instance variables
     boolean enable_diamond_upgrade = true;
     boolean enable_netherite_upgrades = true;
 
-    public Helmets(ImprovedTurtles plugin) {
+    public Helmets(Turtles_Plus plugin) {
         this.plugin = plugin;
         reloadHelmets(plugin);
     }
 
-    public void reloadHelmets(ImprovedTurtles plugin) {
+    public void reloadHelmets(Turtles_Plus plugin) {
         boolean did_diamond = enable_diamond_upgrade,
                 did_netherite = enable_netherite_upgrades;
 
@@ -71,8 +71,8 @@ public class Helmets implements Listener {
         {
             String temp = "";
             boolean save_continuous = false;
-            for(int i = 0; i < name.length(); i++) {
-                if( !(save_continuous || name.charAt(i) == '§') ) { temp += name.charAt(i); //save_continuous = true;
+            for(int i = 0; i < name.length(); i++) { //§ \/
+                if( !(save_continuous || name.charAt(i) == '&') ) { temp += name.charAt(i); //save_continuous = true;
                 } else { i++; }
                 //if(save_continuous) { temp += name.charAt(i); }
             }

@@ -1,6 +1,6 @@
-package me.solacekairos.improvedturtles.turtle;
+package me.solacekairos.turtlesplus.turtle;
 
-import me.solacekairos.improvedturtles.ImprovedTurtles;
+import me.solacekairos.turtlesplus.Turtles_Plus;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Ageable;
@@ -41,11 +41,11 @@ public class Drops implements Listener {
         drop_count_maximum = quantity;
     } //good
 
-    public Drops(ImprovedTurtles plugin) {
+    public Drops(Turtles_Plus plugin) {
         reloadDrops(plugin);
     }
 
-    public void reloadDrops(ImprovedTurtles plugin) {
+    public void reloadDrops(Turtles_Plus plugin) {
         int previous_roll_maximum = roll_maximum,
             previous_total_maximum = drop_count_maximum;
         //boolean did_drop = change_drops;

@@ -1,9 +1,9 @@
-package me.solacekairos.improvedturtles.command;
+package me.solacekairos.turtlesplus.command;
 
-import me.solacekairos.improvedturtles.turtle.Drops;
-import me.solacekairos.improvedturtles.recipies.Helmets;
-import me.solacekairos.improvedturtles.ImprovedTurtles;
-import me.solacekairos.improvedturtles.turtle.ReturnToDrop;
+import me.solacekairos.turtlesplus.turtle.Drops;
+import me.solacekairos.turtlesplus.recipies.Helmets;
+import me.solacekairos.turtlesplus.turtle.ReturnToDrop;
+import me.solacekairos.turtlesplus.Turtles_Plus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Reload implements TabExecutor {
-    ImprovedTurtles occurance;
+    Turtles_Plus occurance;
     Drops reloadable_drops; Helmets reloadable_upgrades; ReturnToDrop reloadable_molting;
 
-    public Reload(ImprovedTurtles plugin) {
+    public Reload(Turtles_Plus plugin) {
         this.occurance = plugin;
         this.reloadable_drops = plugin.Dropper;
         this.reloadable_upgrades = plugin.Upgrades;
