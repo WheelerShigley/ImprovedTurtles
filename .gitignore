@@ -61,6 +61,15 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+.gradle
+.idea
+gradle
+gradlew
+build.gradle
+gradle.properties
+gradlew.bat
+settings.gradle
+
 
 # Directories potentially created on remote AFP share
 .AppleDB
